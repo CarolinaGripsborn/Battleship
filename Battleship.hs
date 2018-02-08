@@ -7,29 +7,35 @@ type Board = [[Square]]
 
 data Square = Empty | Ship Int | Hit | Miss
 
-data GenShip = Vertical Int | Horisontal Int
-
 type MyShip = ([(Int, Int)], Int)  
 
-ship1 = Vertical 2
-ship2 = Horisontal 2
-ship3 = Horisontal 2
-ship4 = Horisontal 3
-ship5 = Vertical 3
-ship6 = Vertical 4
-ship7 = Horisontal 5
+ship1 a b = ([(a, b), (a+1, b)], 1)
+ship2 a b = ([(a, b), (a, b+1)], 2)
+ship3 a b = ([(a, b), (a, b+1)], 3)
+ship4 a b = ([(a, b), (a, b+1), (a, b+2)], 4)
+ship5 a b = ([(a, b), (a+1, b ), (a+2, b)], 5)
+ship6 a b = ([(a, b), (a+1, b ), (a+2, b), (a+3, b)], 6)
+ship7 a b = ([(a, b), (a, b+1 ), (a, b+2), (a, b+3), (a, b+4)], 7) 
 
 ships = [ship1, ship2, ship3, ship4, ship5, ship6, ship7]     
 
 
+{- main 
+   Runs the game.
+-}
 main :: IO ()
 main = do
 	putStrLn "Welcome to Battleship! Try to shoot down your opponent's ships! There are seven in total."
-    gameBoard1 <- genGameBoard  -- make player 1 game board
-    gameBoard2 <- genGameBoard  -- make player 2 game board
-    play gameBoard1 gameBoard2  -- play the game
+    gameBoard1 <- genGameBoard  
+    gameBoard2 <- genGameBoard  
+    play gameBoard1 gameBoard2  
 
 
+{- play gameBoard1 gmaeBoard2
+   
+   PRE: gameBoard1 and gameBoard2 are valid and not in a winning state
+   Side-effects: Switches between players' boards and updates after moves
+-}
 play gameBoard1 gameBoard2 = do 
     putStrLn "Go player one"
     newGameBoard2 <- player gameBoard2
@@ -38,6 +44,11 @@ play gameBoard1 gameBoard2 = do
     play newGameBoard1 newGameBoard2
 
 
+{- player gameBoard
+   Play the game.
+   PRE: gameBoard is valid
+   Side-effects: The game interaction
+-}
 player gameBoard = do
 	printBoard gameBoard
 	move <- readMove
@@ -60,6 +71,12 @@ rematch = do
 	else return ()  
 
 
+{- hipShip gameBoard move
+   Determines whether a move is a hit or a miss.
+   PRE: move is a valid input
+   RETURNS: true if the chosen square contains a boat, else false
+   EXAMPLES: 
+-}
 hitShip :: Board -> (Int, Int) -> Bool
 hitShip gameBoard move = ((gameBoard !! (fst move)) !! (snd move)) == (Ship _) 
 
@@ -85,7 +102,7 @@ changeState = undefined
 
 -- ny spelplan efter ett drag
 updateBoard :: Board -> (Int, Int) -> Board
-updateBoard = undefined 
+updateBoard = 
 
 -- för att se att man träffat hela sheppet
 checkneighbours = undefined
