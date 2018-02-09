@@ -66,8 +66,15 @@ player gameBoard = do
 		    else
 		     	putStrLn "Nice shot! Try again."
 		        player (updateBoard gameBoard move)
+  else if alreadyHit gameBoard move then do
+          putStrLn "You already hit that one, try again!"
+          player gameBoard
 	else return (updateBoard gameBoard move)
 		    
+
+alreadyHit :: Board -> Move -> Bool
+alreadyHit board (row,num) =
+  ((board !! row) !! num) == Miss || ((board !! row) !! num) == Hit  
 
 {- rematch
    Restarts or exits the game.
