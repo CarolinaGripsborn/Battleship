@@ -75,6 +75,8 @@ alreadyHit :: Board -> Move -> Bool
 alreadyHit board (row,num) =
   ((board !! row) !! num) == Miss || ((board !! row) !! num) == Hit 
 
+testinggit = 5
+
 
 
 {- rematch
