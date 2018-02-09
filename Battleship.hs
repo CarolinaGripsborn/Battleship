@@ -54,7 +54,7 @@ play gameBoard1 gameBoard2 = do
 player gameBoard = do
 	printBoard gameBoard
 	move <- checkMove
-	if hitShip  then do
+	if hitShip gameBoard move then do.   -- la till argumenten gameBoard och move
 		if win gameBoard then
 			putStrLn "Congratulations! You Won!"
 			putStrLn "Play again?"
@@ -66,8 +66,16 @@ player gameBoard = do
 		    else
 		     	putStrLn "Nice shot! Try again."
 		        player (updateBoard gameBoard move)
+  else if alreadyHit gameBoard move then    -- la till funktion ifall man redan träffat
+          putStrLn "You already hit that one, try again!" -- rutan så får man köra igen
+          player gameBoard
 	else return (updateBoard gameBoard move)
 		    
+alreadyHit :: Board -> Move -> Bool
+alreadyHit board (row,num) =
+  ((board !! row) !! num) == Miss || ((board !! row) !! num) == Hit 
+
+
 
 {- rematch
    Restarts or exits the game.
