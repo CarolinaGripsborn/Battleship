@@ -79,6 +79,10 @@ testinggit = 5
 
 
 
+alreadyHit :: Board -> Move -> Bool
+alreadyHit board (row,num) =
+  ((board !! row) !! num) == Miss || ((board !! row) !! num) == Hit  
+
 {- rematch
    Restarts or exits the game.
    PRE: a valid input
